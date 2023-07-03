@@ -8,7 +8,7 @@ export default class Search extends Component {
       this.props.updateAppState({isFirst:false,isLoading:true})
 
         //send network request
-        axios.get(`http://localhost:3000/api1/search/users?q=${keyword}`).then(
+        axios.get(`https://api.github.com/search/users?q=${keyword}`).then(
             response=>{
               //update App state after getting response from server
               this.props.updateAppState({isLoading:false, users:response.data.items})
