@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-export default class index extends Component {
+export default class Search extends Component {
     search=()=>{
         //get user's input
-        const {value:keyword}=this.keyWordElement;  
+        const {value:keyword}=this.keyWordElement;
+        //updateAppState before sending request
+      this.props.updateAppState({isFirst:false,isLoading:true})
+
         //send network request
         axios.get(`http://localhost:3000/api1/search/users?q=${keyword}`).then(
-            response=>{console.log('successful',response.data);},
-            error=>{console.log('error',error)}
+            response=>{
+              //update App state after getting response from server
+              this.props.updateAppState({isLoading:false, users:response.data.items})
+            },
+            //update App state after failing to get response from server
+            error=>{
+              this.props.updateAppState({isLoading:false, err:error.message})
+            }
         )
     }
   render() {
